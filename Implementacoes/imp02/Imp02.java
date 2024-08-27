@@ -61,49 +61,103 @@ public class Imp02{
         return grafo;
     }
 
+    public static class Aresta {
+        private int origem;
+        private int destino;
+    
+        public Aresta(int a, int b) {
+            this.origem = a;
+            this.destino = b;
+        }
+    
+        public int getOrigem() {
+            return origem;
+        }
+    
+        public int getDestino() {
+            return destino;
+        }
+    
+        @Override
+        public String toString() {
+            return "[" + origem + ", " + destino + "]";
+        }
+    }
+    
+
     public static class DFS{
         private int t;
         private int td[];
         private int tt[];
-        private boolean visto[];
         private int visitados;
+        
+        List<Aresta> arvore;
+        List<Aresta> retorno;
+        List<Aresta> avanco;
+        List<Aresta> cruzamento;
 
-        public DFS(Grafo g){
+        public int getT(){
+            return t;
+        }
+
+        public DFS(Grafo g, int escolhido){
             t = 0;
             td = new int[g.size() + 1];
             tt = new int[g.size() + 1];
-            visto = new boolean[g.size() + 1];
             visitados = 0;
-            search(g);
+            arvore = new ArrayList<>();
+            retorno = new ArrayList<>();
+            avanco = new ArrayList<>();
+            cruzamento = new ArrayList<>();
+            search(g, escolhido);
         }
 
-        public void search(Grafo g){
+        public void search(Grafo g, int escolhido){
             // Enquanto algum TD = 0
-            for(int v = 1; v < g.size() || visitados == g.size() - 1; v++){ // Posicao 0 não conta
-                if(td[v] == 0){
-                    busca_profundidade(g, v);
-                }
-            }
+            //for(int v = 1; v <= 100 || visitados == g.size() - 1; v++){ // Posicao 0 não conta
+                    busca_profundidade(g, 1, escolhido);
+                
+            //}
         }
 
-        private void busca_profundidade(Grafo g, int v){
+        private void busca_profundidade(Grafo g, int v, int escolhido){
             List<Integer> suc = g.getSucessores(v);
             suc.sort(Integer::compareTo); // Ordem lexicográfica 
             visitados++;
             t++;
             td[v] = t;
-            visto[v] = true;
             for(int w : suc){
-                if(!visto[w]){
-                    System.out.println("[" + v + ", " + w + "]");
-                    busca_profundidade(g, w); // Aresta de árvore
+                Aresta a = new Aresta(v, w);
+                if(td[w] == 0){
+                    
+                    arvore.add(a);
+                    
+                    busca_profundidade(g, w, escolhido); // Aresta de árvore
                 }
                 // Adicionar retorno, avanco e cruzamento
-                else if(tt[w] == 0){
-                    
+                else if(escolhido == v){
+                    if(tt[w] == 0){
+                        retorno.add(a);
+                    }
+                    else if(td[v] < td[w]){
+                        avanco.add(a);
+                    }
+                    else{
+                        cruzamento.add(a);
+                    }
                 }
             }
+            t++;
+            tt[v] = t;
         }
+
+        public boolean visto(int v){
+            return td[v] != 0;
+        }
+        public int cont(){
+            return visitados;
+        }
+
     }
     public static void main(String[] args) throws IOException{
         Scanner sc = new Scanner(System.in);
@@ -114,8 +168,12 @@ public class Imp02{
         int vertice = sc.nextInt(); // Entradas do usuário
 
         Grafo grafo = criarGrafo(arq);
-        System.out.println(grafo.size());
-        DFS dfs = new DFS(grafo);
+        
+        DFS dfs = new DFS(grafo, vertice);
+
+        System.out.println("Arestas de retorno: " + dfs.retorno.toString());
+        System.out.println("Arestas de avanco: " + dfs.avanco.toString());
+        System.out.println("Arestas de cruzamento: " + dfs.cruzamento.toString());
 
         sc.close();
     }
