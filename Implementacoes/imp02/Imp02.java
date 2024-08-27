@@ -19,6 +19,10 @@ public class Imp02{
         public int size(){
             return grafo.size(); // Posicao 0 + vértices do grafo
         }
+        
+        public int sucessoresSize(int vertice){
+            return grafo.get(vertice).size();
+        }
     }
     public static Grafo criarGrafo(String arq) throws IOException{
 
@@ -58,21 +62,48 @@ public class Imp02{
     }
 
     public static class DFS{
-      int t;
-      int td[];
-      int tt[];
-      int pai[];
-      
-      public DFS(Grafo g){
-        t = 0;
-        td = new int[g.size()];
-        tt = new int[g.size()];
-        pai = new int[g.size()]; // Vetores inicializados com 0 por padrão
-      }
+        private int t;
+        private int td[];
+        private int tt[];
+        private boolean visto[];
+        private int visitados;
 
-      public void dfs(){
-        // Enquanto algum TD = 0
-      }
+        public DFS(Grafo g){
+            t = 0;
+            td = new int[g.size() + 1];
+            tt = new int[g.size() + 1];
+            visto = new boolean[g.size() + 1];
+            visitados = 0;
+            search(g);
+        }
+
+        public void search(Grafo g){
+            // Enquanto algum TD = 0
+            for(int v = 1; v < g.size() || visitados == g.size() - 1; v++){ // Posicao 0 não conta
+                if(td[v] == 0){
+                    busca_profundidade(g, v);
+                }
+            }
+        }
+
+        private void busca_profundidade(Grafo g, int v){
+            List<Integer> suc = g.getSucessores(v);
+            suc.sort(Integer::compareTo); // Ordem lexicográfica 
+            visitados++;
+            t++;
+            td[v] = t;
+            visto[v] = true;
+            for(int w : suc){
+                if(!visto[w]){
+                    System.out.println("[" + v + ", " + w + "]");
+                    busca_profundidade(g, w); // Aresta de árvore
+                }
+                // Adicionar retorno, avanco e cruzamento
+                else if(tt[w] == 0){
+                    
+                }
+            }
+        }
     }
     public static void main(String[] args) throws IOException{
         Scanner sc = new Scanner(System.in);
@@ -83,11 +114,8 @@ public class Imp02{
         int vertice = sc.nextInt(); // Entradas do usuário
 
         Grafo grafo = criarGrafo(arq);
-
+        System.out.println(grafo.size());
         DFS dfs = new DFS(grafo);
-        dfs.search();
-
-        System.out.println(grafo.getSucessores(1).toString());
 
         sc.close();
     }
