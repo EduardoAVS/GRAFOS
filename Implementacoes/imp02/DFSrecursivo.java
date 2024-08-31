@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.util.List;
 import java.io.IOException; 
 
-public class Imp02{
+public class DFSrecursivo{
     static class Grafo{
        List<List<Integer>> grafo;
 
@@ -100,6 +100,20 @@ public class Imp02{
             return t;
         }
 
+        public int getTdAt(int v){
+            return td[v];
+        } 
+
+        public int getTtAt(int v){
+            return tt[v];
+        } 
+        public boolean visto(int v){
+            return td[v] != 0;
+        }
+        public int cont(){
+            return visitados;
+        }
+
         public DFS(Grafo g, int escolhido){
             t = 0;
             td = new int[g.size() + 1];
@@ -110,14 +124,18 @@ public class Imp02{
             avanco = new ArrayList<>();
             cruzamento = new ArrayList<>();
             search(g, escolhido);
+
+            
         }
 
         public void search(Grafo g, int escolhido){
             // Enquanto algum TD = 0
-            //for(int v = 1; v <= 100 || visitados == g.size() - 1; v++){ // Posicao 0 não conta
+            for(int v = 1; v <= 100; v++){ // Posicao 0 não conta
+                if(!visto(v)){
                     busca_profundidade(g, 1, escolhido);
+                }
                 
-            //}
+            }
         }
 
         private void busca_profundidade(Grafo g, int v, int escolhido){
@@ -137,25 +155,18 @@ public class Imp02{
                 // Adicionar retorno, avanco e cruzamento
                 else if(escolhido == v){
                     if(tt[w] == 0){
-                        retorno.add(a);
+                        retorno.add(a); // W ainda não terminou
                     }
                     else if(td[v] < td[w]){
-                        avanco.add(a);
+                        avanco.add(a); // W foi descoberta depois de V
                     }
                     else{
-                        cruzamento.add(a);
+                        cruzamento.add(a); // W foi descoberta antes de V
                     }
                 }
             }
             t++;
             tt[v] = t;
-        }
-
-        public boolean visto(int v){
-            return td[v] != 0;
-        }
-        public int cont(){
-            return visitados;
         }
 
     }
@@ -171,9 +182,32 @@ public class Imp02{
         
         DFS dfs = new DFS(grafo, vertice);
 
+        System.out.println("Arestas de árvore: " + dfs.arvore.toString());
+
         System.out.println("Arestas de retorno: " + dfs.retorno.toString());
+        if(dfs.retorno != null){
+            for(Aresta a : dfs.retorno){
+                System.out.println("Origem " + a.getOrigem() + " TD e TT: " +  dfs.getTdAt(a.getOrigem()) + " " +  dfs.getTtAt(a.getOrigem()));
+                System.out.println("Destino " + a.getDestino() + " TD e TT: "+  dfs.getTdAt(a.getDestino()) + " " +  dfs.getTtAt(a.getDestino()));
+            }
+            
+        }
         System.out.println("Arestas de avanco: " + dfs.avanco.toString());
+        if(dfs.avanco != null){
+            for(Aresta a : dfs.avanco){
+                System.out.println("Origem " + a.getOrigem() + " TD e TT: " +  dfs.getTdAt(a.getOrigem()) + " " +  dfs.getTtAt(a.getOrigem()));
+                System.out.println("Destino " + a.getDestino() + " TD e TT: "+  dfs.getTdAt(a.getDestino()) + " " +  dfs.getTtAt(a.getDestino()));
+            }
+            
+        }
+
         System.out.println("Arestas de cruzamento: " + dfs.cruzamento.toString());
+        if(dfs.cruzamento != null){
+            for(Aresta a : dfs.cruzamento){
+                System.out.println("Origem " + a.getOrigem() + " TD e TT: " +  dfs.getTdAt(a.getOrigem()) + " " +  dfs.getTtAt(a.getOrigem()));
+                System.out.println("Destino " + a.getDestino() + " TD e TT: "+  dfs.getTdAt(a.getDestino()) + " " +  dfs.getTtAt(a.getDestino()));
+            }
+        }
 
         sc.close();
     }
