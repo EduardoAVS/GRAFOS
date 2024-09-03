@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
-import java.util.Iterator;
 import java.io.BufferedReader; 
 import java.io.FileReader;
 import java.util.List;
@@ -139,6 +138,8 @@ public class DFSiterativo{
         private void busca_profundidade(Grafo g, int escolhido){
             Stack<Integer> pilha = new Stack<>();
             pilha.push(1);
+            t++;
+            td[1] = t;
 
             while(!pilha.isEmpty()){
                 int v = pilha.peek();
@@ -148,12 +149,11 @@ public class DFSiterativo{
                 boolean achouSucessor = false;
 
 
-                t++;
-                td[v] = t;
-
                 for(int w : suc){
                     Aresta a = new Aresta(v, w);
                     if(td[w] == 0){
+                        t++;
+                        td[w] = t;
                         arvore.add(a);
                         achouSucessor = true;
                         pilha.push(w); // Aresta de árvore
@@ -193,33 +193,33 @@ public class DFSiterativo{
         
         DFS dfs = new DFS(grafo, vertice);
 
-        //System.out.println("Arestas de árvore: " + dfs.arvore.toString());
+        System.out.println("Arestas de árvore: " + dfs.arvore.toString());
 
         System.out.println("Arestas de retorno: " + dfs.retorno.toString());
-        if(dfs.retorno != null){
+        /*if(dfs.retorno != null){ // Teste arestas de retorno
             for(Aresta a : dfs.retorno){
                 System.out.println("Origem " + a.getOrigem() + " TD e TT: " +  dfs.getTdAt(a.getOrigem()) + " " +  dfs.getTtAt(a.getOrigem()));
                 System.out.println("Destino " + a.getDestino() + " TD e TT: "+  dfs.getTdAt(a.getDestino()) + " " +  dfs.getTtAt(a.getDestino()));
             }
             
-        }
+        }*/
         System.out.println("Arestas de avanco: " + dfs.avanco.toString());
-        if(dfs.avanco != null){
+        /*if(dfs.avanco != null){
             for(Aresta a : dfs.avanco){
                 System.out.println("Origem " + a.getOrigem() + " TD e TT: " +  dfs.getTdAt(a.getOrigem()) + " " +  dfs.getTtAt(a.getOrigem()));
                 System.out.println("Destino " + a.getDestino() + " TD e TT: "+  dfs.getTdAt(a.getDestino()) + " " +  dfs.getTtAt(a.getDestino()));
             }
             
-        }
+        }*/
 
         System.out.println("Arestas de cruzamento: " + dfs.cruzamento.toString());
-        if(dfs.cruzamento != null){
+        /*if(dfs.cruzamento != null){
             for(Aresta a : dfs.cruzamento){
                 System.out.println("Origem " + a.getOrigem() + " TD e TT: " +  dfs.getTdAt(a.getOrigem()) + " " +  dfs.getTtAt(a.getOrigem()));
                 System.out.println("Destino " + a.getDestino() + " TD e TT: "+  dfs.getTdAt(a.getDestino()) + " " +  dfs.getTtAt(a.getDestino()));
             }
-        }
-
+        }*/
+        
         sc.close();
     }
     
