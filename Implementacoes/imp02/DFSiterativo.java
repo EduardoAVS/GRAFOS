@@ -243,7 +243,7 @@ public class DFSiterativo{
                 System.out.println("Destino " + a.getDestino() + " TD e TT: "+  dfs.getTdAt(a.getDestino()) + " " +  dfs.getTtAt(a.getDestino()));
             }
         }*/
-        System.out.println(" TD e TT 96: " +  dfs.getTdAt(96) + " " +  dfs.getTtAt(96) + " TD e TT 93: "+  dfs.getTdAt(93) + " " +  dfs.getTtAt(93));
+
         sc.close();
     }
     
