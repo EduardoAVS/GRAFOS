@@ -207,7 +207,7 @@ public class DFSrecursivo{
                 System.out.println("Origem " + a.getOrigem() + " TD e TT: " +  dfs.getTdAt(a.getOrigem()) + " " +  dfs.getTtAt(a.getOrigem()));
                 System.out.println("Destino " + a.getDestino() + " TD e TT: "+  dfs.getTdAt(a.getDestino()) + " " +  dfs.getTtAt(a.getDestino()));
             }
-        }
+        }//graph-test-100-1.txt
 
         sc.close();
     }

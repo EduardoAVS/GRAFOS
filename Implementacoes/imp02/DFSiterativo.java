@@ -164,47 +164,36 @@ public class DFSiterativo{
                         break;
                     }
                     
-                    // Adicionar retorno, avanco e cruzamento
-                    /*else if(escolhido == v && pai[w] != v){
-                        if(tt[w] == 0){
-                            retorno.add(a); // W ainda não terminou
-                        }
-                        else if(td[v] < td[w]){
-                            avanco.add(a); // W foi descoberta depois de v
-                        }
-                        else if(v > td[w]){
-                            cruzamento.add(a); // W foi descoberta antes de v
-                        }
-                    }*/
                 }
                 if(!achouSucessor){
+
+                    // Adicionar retorno, avanco e cruzamento
+                    if(v == escolhido){
+                        for(int w : suc){
+                            Aresta a = new Aresta(v, w);
+                            if(v != pai[w]){
+                                if(tt[w] == 0){
+                                    retorno.add(a); // W ainda não terminou / retorno
+                                }
+                                else if(td[v] < td[w] && v != pai[w]){
+                                    avanco.add(a); // W foi descoberta depois de v / avanco
+                                }
+                                else {
+                                    cruzamento.add(a); // W foi descoberta antes de v / cruzamento
+                                } 
+                            }
+                            
+                        }
+                    }
+                    
                     t++;
                     tt[v] = t;
                     pilha.pop();
                 }   
             }
-            getArestas(g, escolhido);
-        }
 
-        public void getArestas(Grafo g, int v){
-            for(int w : g.getSucessores(v)){
-                Aresta a = new Aresta(v, w);
-                if(pai[w] == v){
-                    // Ignorar aresta de árvore
-                }
-                else {
-                    if(tt[v] < tt[w]){
-                        retorno.add(a); // W ainda não terminou
-                    }
-                    else if(td[v] < td[w]){
-                        avanco.add(a); // W foi descoberta depois de v
-                    }
-                    else{
-                        cruzamento.add(a); // W foi descoberta antes de v
-                    }
-                }
-            }
-        }
+        } //graph-test-100-1.txt
+          //graph-test-50000-1.txt
 
     }
     public static void main(String[] args) throws IOException{
@@ -219,7 +208,9 @@ public class DFSiterativo{
         
         DFS dfs = new DFS(grafo, vertice);
 
-        //System.out.println("Arestas de árvore: " + dfs.arvore.toString());
+        System.out.println("Arestas de árvore: " + dfs.arvore.toString());
+
+        System.out.println();
 
         System.out.println("Arestas de retorno: " + dfs.retorno.toString());
         /*if(dfs.retorno != null){ // Teste arestas de retorno
@@ -229,6 +220,8 @@ public class DFSiterativo{
             }
             
         }*/
+        System.out.println();
+
         System.out.println("Arestas de avanco: " + dfs.avanco.toString());
         /*if(dfs.avanco != null){
             for(Aresta a : dfs.avanco){
@@ -237,9 +230,10 @@ public class DFSiterativo{
             }
             
         }*/
+        System.out.println();
 
         System.out.println("Arestas de cruzamento: " + dfs.cruzamento.toString());
-       /*if(dfs.cruzamento != null){
+        /*if(dfs.cruzamento != null){
             for(Aresta a : dfs.cruzamento){
                 System.out.println("Origem " + a.getOrigem() + " TD e TT: " +  dfs.getTdAt(a.getOrigem()) + " " +  dfs.getTtAt(a.getOrigem()));
                 System.out.println("Destino " + a.getDestino() + " TD e TT: "+  dfs.getTdAt(a.getDestino()) + " " +  dfs.getTtAt(a.getDestino()));
