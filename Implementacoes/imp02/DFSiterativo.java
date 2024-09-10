@@ -122,19 +122,7 @@ public class DFSiterativo{
             retorno = new ArrayList<>();
             avanco = new ArrayList<>();
             cruzamento = new ArrayList<>();
-            search(g, escolhido);
-
-            
-        }
-
-        public void search(Grafo g, int escolhido){
-            // Enquanto algum TD = 0
-            for(int v = 1; v <= 100; v++){ // Posicao 0 não conta
-                if(!visto(v)){
-                    busca_profundidade(g, escolhido);
-                }
-                
-            }
+            busca_profundidade(g, escolhido);
         }
 
         private void busca_profundidade(Grafo g, int escolhido){
