@@ -122,14 +122,22 @@ public class DFSiterativo{
             retorno = new ArrayList<>();
             avanco = new ArrayList<>();
             cruzamento = new ArrayList<>();
-            busca_profundidade(g, escolhido);
+            dfs(g, escolhido);
         }
 
-        private void busca_profundidade(Grafo g, int escolhido){
-            Stack<Integer> pilha = new Stack<>();
-            pilha.push(1);
-            t++;
-            td[1] = t;
+        public void dfs(Grafo g, int escolhido){
+            for(int i = 1; i < g.size(); i++){
+                if(td[i] == 0){
+                    Stack<Integer> pilha = new Stack<>();
+                    pilha.push(i);
+                    t++;
+                    td[i] = t;
+                    busca_profundidade(g, escolhido, i, pilha);
+                }
+            }
+        }
+
+        private void busca_profundidade(Grafo g, int escolhido, int raiz, Stack<Integer> pilha ){
 
             while(!pilha.isEmpty()){
                 int v = pilha.peek();
