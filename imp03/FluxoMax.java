@@ -21,7 +21,6 @@ public class FluxoMax{
 
             String numeros[] = linha.split("\\s+");
             int n = Integer.parseInt(numeros[0]); // Número de vértices
-            Integer.parseInt(numeros[1]); // Pular o número de arestas
 
             int[][] adjMatrix = new int[n + 1][n + 1];
             this.size = n + 1; // Conta o valor do 0 no size
@@ -115,9 +114,15 @@ public class FluxoMax{
         int s = sc.nextInt();
         int t = sc.nextInt();
 
+        long inicio = System.currentTimeMillis();
+
         int maxFlow = grafo.edmondsKarp(s, t);
 
         System.out.println("Fluxo Máximo: " + maxFlow);
+
+        long tempoExecucao = System.currentTimeMillis() - inicio;
+        System.out.println("Tempo de execução: " + tempoExecucao + "ms");
+
         sc.close();
-    }
+    } // imp03/esparso10000.txt
 }
